@@ -23,14 +23,10 @@ RUN rm -rf /var/lib/rpm/__db.* \
 
 #Set password for root
  && echo 'root:123456' | chpasswd \
- && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-
-#Set history record
-ENV HISTTIMEFORMAT "%F %T  "
-
+ && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 
 #Create key
-RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key \
+ && ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key \
     && ssh-keygen -t rsa -f /etc/ssh/ssh_host_ecdsa_key \
     && ssh-keygen -t rsa -f /etc/ssh/ssh_host_ed25519_key \
 
@@ -42,6 +38,9 @@ RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key \
 
 #Open port
 EXPOSE 22
+
+#Set history record
+ENV HISTTIMEFORMAT "%F %T  "
 
 ADD run.sh /usr/local/sbin/run.sh
 RUN chmod +x /usr/local/sbin/run.sh
